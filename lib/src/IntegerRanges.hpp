@@ -170,6 +170,28 @@ struct StaticIntegerRange
         return operator--();
     }
 
+    StaticIntegerRange<MIN,MAX,TYPE> &operator+=(TYPE value)
+    {
+        if (MIN > (mValue + value) || (mValue + value) > MAX)
+        {
+            throw OutOfRangeError();
+        }
+
+        mValue += value;
+        return *this;
+    }
+
+    StaticIntegerRange<MIN,MAX,TYPE> &operator-=(TYPE value)
+    {
+        if (MIN > (mValue - value) || (mValue - value) > MAX)
+        {
+            throw OutOfRangeError();
+        }
+
+        mValue -= value;
+        return *this;
+    }
+
     operator TYPE() const
     {
         return mValue;

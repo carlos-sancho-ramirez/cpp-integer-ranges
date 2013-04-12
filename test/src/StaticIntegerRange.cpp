@@ -49,6 +49,71 @@ int main(int argc, char *argv[])
         return TEST_FAILED;
     }
 
+#define TEST_STR "Reassign value for "
+
+    // Reassigning values
+    try
+    {
+        range_t value = RANGE_MIN;
+        value = RANGE_MAX;
+
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with == when other int equals for "
+
+    try
+    {
+        range_t value = RANGE_MAX;
+        int expected = RANGE_MAX;
+
+        if (value == expected)
+        {
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+        }
+        else
+        {
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+            return TEST_FAILED;
+        }
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with == when other int equals and is before, for "
+
+    try
+    {
+        range_t value = RANGE_MAX;
+        int expected = RANGE_MAX;
+
+        if (expected == value)
+        {
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+        }
+        else
+        {
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+            return TEST_FAILED;
+        }
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
 #define TEST_STR "post ++ operator on a value that is actually in the limit for "
 
     // Operator ++
@@ -206,6 +271,38 @@ int main(int argc, char *argv[])
     {
         cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
         return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "value += 1 for "
+
+    // Adding and assigning
+    try
+    {
+        range_t value = RANGE_MAX;
+        value += 1;
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+    catch(OutOfRangeError error)
+    {
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+
+#undef TEST_STR
+#define TEST_STR "value -= 1 for "
+
+    // Substracting and assigning
+    try
+    {
+        range_t value = RANGE_MIN;
+        value -= 1;
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+    catch(OutOfRangeError error)
+    {
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
     }
 
     cout << "All test passed" << endl;
