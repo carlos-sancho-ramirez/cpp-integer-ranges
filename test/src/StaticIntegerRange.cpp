@@ -31,6 +31,7 @@ typedef TEST_CLASS range_t;
 
 int main(int argc, char *argv[])
 {
+    // Assigning values
     try
     {
         range_t minValue = RANGE_MIN;
@@ -48,5 +49,135 @@ int main(int argc, char *argv[])
         return TEST_FAILED;
     }
 
+#define TEST_STR "post ++ operator on a value that is actually in the limit for "
+
+    // Operator ++
+    try
+    {
+        range_t value = RANGE_MAX;
+        value++;
+
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+    catch(OutOfRangeError error)
+    {
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+
+#undef TEST_STR
+#define TEST_STR "pre ++ operator on a value that is actually in the limit for "
+
+    try
+    {
+        range_t value = RANGE_MAX;
+        ++value;
+
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+    catch(OutOfRangeError error)
+    {
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+
+#undef TEST_STR
+#define TEST_STR "post ++ operator on a value that is not in the limit for "
+
+    try
+    {
+        range_t value = RANGE_MAX - 1;
+        value++;
+
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "pre ++ operator on a value that is not in the limit for "
+
+    try
+    {
+        range_t value = RANGE_MAX - 1;
+        ++value;
+
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "post -- operator on a value that is actually in the limit for "
+
+    // Operator --
+    try
+    {
+        range_t value = RANGE_MIN;
+        value--;
+
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+    catch(OutOfRangeError error)
+    {
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+
+#undef TEST_STR
+#define TEST_STR "pre -- operator on a value that is actually in the limit for "
+
+    try
+    {
+        range_t value = RANGE_MIN;
+        --value;
+
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+    catch(OutOfRangeError error)
+    {
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+
+#undef TEST_STR
+#define TEST_STR "post -- operator on a value that is not in the limit for "
+
+    try
+    {
+        range_t value = RANGE_MIN + 1;
+        value--;
+
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "pre -- operator on a value that is not in the limit for "
+
+    try
+    {
+        range_t value = RANGE_MIN + 1;
+        --value;
+
+        cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+    cout << "All test passed" << endl;
     return TEST_PASSED;
 }

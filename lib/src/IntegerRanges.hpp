@@ -154,6 +154,22 @@ struct StaticIntegerRange
         return operator++();
     }
 
+    StaticIntegerRange<MIN,MAX,TYPE> &operator--() // Prefix (--x)
+    {
+        if (mValue <= MIN)
+        {
+            throw OutOfRangeError();
+        }
+
+        mValue--;
+        return *this;
+    }
+
+    StaticIntegerRange<MIN,MAX,TYPE> &operator--(int unused) // Postfix (x--)
+    {
+        return operator--();
+    }
+
     operator TYPE() const
     {
         return mValue;
