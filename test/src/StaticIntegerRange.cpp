@@ -178,6 +178,36 @@ int main(int argc, char *argv[])
         return TEST_FAILED;
     }
 
+#undef TEST_STR
+#define TEST_STR "value + 1 throws an exception for "
+
+    // Adding
+    try
+    {
+        range_t value = RANGE_MAX;
+        cout << TEST_PASSED_STR "(value + 1) is " << static_cast<int>(value + 1) << " for " TEST_CLASS_STR << endl;
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "value - 1 throws an exception for "
+
+    // Substracting
+    try
+    {
+        range_t value = RANGE_MIN;
+        cout << TEST_PASSED_STR "(value - 1) is " << static_cast<int>(value - 1) << " for " TEST_CLASS_STR << endl;
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
     cout << "All test passed" << endl;
     return TEST_PASSED;
 }
