@@ -28,6 +28,32 @@
 #define STRINGIFICATION(str) _STRINGIFICATION(str)
 #define _STRINGIFICATION(str) #str
 
+#define TEST_ASSERT_TRUE(condition) \
+        if (condition) \
+        { \
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl; \
+        } \
+        else \
+        { \
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl; \
+            return TEST_FAILED; \
+        }
+
+#define TEST_ASSERT_FALSE(condition) \
+        if (condition) \
+        { \
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl; \
+            return TEST_FAILED; \
+        } \
+        else \
+        { \
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl; \
+        }
+
+#define SHOW_OUT_OF_RANGE_ERROR \
+    cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl; \
+    return TEST_FAILED
+
 using namespace std;
 
 typedef TEST_CLASS range_t;
@@ -77,20 +103,11 @@ int main(int argc, char *argv[])
         range_t value = RANGE_MAX;
         int expected = RANGE_MAX;
 
-        if (value == expected)
-        {
-            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
-        }
-        else
-        {
-            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
-            return TEST_FAILED;
-        }
+        TEST_ASSERT_TRUE(value == expected)
     }
     catch(OutOfRangeError error)
     {
-        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
-        return TEST_FAILED;
+        SHOW_OUT_OF_RANGE_ERROR;
     }
 
 #undef TEST_STR
@@ -101,20 +118,11 @@ int main(int argc, char *argv[])
         range_t value = RANGE_MAX;
         int expected = RANGE_MAX;
 
-        if (expected == value)
-        {
-            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
-        }
-        else
-        {
-            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
-            return TEST_FAILED;
-        }
+        TEST_ASSERT_TRUE(expected == value)
     }
     catch(OutOfRangeError error)
     {
-        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
-        return TEST_FAILED;
+        SHOW_OUT_OF_RANGE_ERROR;
     }
 
 #undef TEST_STR
@@ -125,20 +133,11 @@ int main(int argc, char *argv[])
         range_t value1 = RANGE_MAX;
         range_t value2 = RANGE_MAX;
 
-        if (value1 == value2)
-        {
-            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
-        }
-        else
-        {
-            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
-            return TEST_FAILED;
-        }
+        TEST_ASSERT_TRUE(value1 == value2)
     }
     catch(OutOfRangeError error)
     {
-        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
-        return TEST_FAILED;
+        SHOW_OUT_OF_RANGE_ERROR;
     }
 
 #undef TEST_STR
@@ -149,20 +148,11 @@ int main(int argc, char *argv[])
         range_t value1 = RANGE_MIN;
         range2_t value2 = RANGE_MIN;
 
-        if (value1 == value2)
-        {
-            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
-        }
-        else
-        {
-            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
-            return TEST_FAILED;
-        }
+        TEST_ASSERT_TRUE(value1 == value2)
     }
     catch(OutOfRangeError error)
     {
-        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
-        return TEST_FAILED;
+        SHOW_OUT_OF_RANGE_ERROR;
     }
 
 #undef TEST_STR
@@ -173,20 +163,11 @@ int main(int argc, char *argv[])
         range_t value = RANGE_MAX;
         int expected = RANGE_MAX - 1;
 
-        if (value == expected)
-        {
-            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
-            return TEST_FAILED;
-        }
-        else
-        {
-            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
-        }
+        TEST_ASSERT_FALSE(value == expected)
     }
     catch(OutOfRangeError error)
     {
-        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
-        return TEST_FAILED;
+        SHOW_OUT_OF_RANGE_ERROR;
     }
 
 #undef TEST_STR
@@ -197,20 +178,11 @@ int main(int argc, char *argv[])
         range_t value = RANGE_MAX;
         int expected = RANGE_MAX - 1;
 
-        if (expected == value)
-        {
-            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
-            return TEST_FAILED;
-        }
-        else
-        {
-            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
-        }
+        TEST_ASSERT_FALSE(expected == value)
     }
     catch(OutOfRangeError error)
     {
-        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
-        return TEST_FAILED;
+        SHOW_OUT_OF_RANGE_ERROR;
     }
 
 #undef TEST_STR
@@ -221,20 +193,11 @@ int main(int argc, char *argv[])
         range_t value1 = RANGE_MAX;
         range_t value2 = RANGE_MAX - 1;
 
-        if (value1 == value2)
-        {
-            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
-            return TEST_FAILED;
-        }
-        else
-        {
-            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
-        }
+        TEST_ASSERT_FALSE(value1 == value2)
     }
     catch(OutOfRangeError error)
     {
-        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
-        return TEST_FAILED;
+        SHOW_OUT_OF_RANGE_ERROR;
     }
 
 #undef TEST_STR
@@ -245,20 +208,131 @@ int main(int argc, char *argv[])
         range_t value1 = RANGE_MIN + 1;
         range2_t value2 = RANGE_MIN;
 
-        if (value1 == value2)
-        {
-            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
-            return TEST_FAILED;
-        }
-        else
-        {
-            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
-        }
+        TEST_ASSERT_FALSE(value1 == value2)
     }
     catch(OutOfRangeError error)
     {
-        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
-        return TEST_FAILED;
+        SHOW_OUT_OF_RANGE_ERROR;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with != operator when normal int on the right equals for "
+
+    try
+    {
+        range_t value = RANGE_MAX;
+        int expected = RANGE_MAX;
+
+        TEST_ASSERT_FALSE(value != expected)
+    }
+    catch(OutOfRangeError error)
+    {
+        SHOW_OUT_OF_RANGE_ERROR;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with != operator when normal int on the left equals for "
+
+    try
+    {
+        range_t value = RANGE_MAX;
+        int expected = RANGE_MAX;
+
+        TEST_ASSERT_FALSE(expected != value)
+    }
+    catch(OutOfRangeError error)
+    {
+        SHOW_OUT_OF_RANGE_ERROR;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with != operator when other " TEST_CLASS_STR " equals for "
+
+    try
+    {
+        range_t value1 = RANGE_MAX;
+        range_t value2 = RANGE_MAX;
+
+        TEST_ASSERT_FALSE(value1 != value2)
+    }
+    catch(OutOfRangeError error)
+    {
+        SHOW_OUT_OF_RANGE_ERROR;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with != operator when other " TEST_CLASS2_STR " equals for "
+
+    try
+    {
+        range_t value1 = RANGE_MIN;
+        range2_t value2 = RANGE_MIN;
+
+        TEST_ASSERT_FALSE(value1 != value2)
+    }
+    catch(OutOfRangeError error)
+    {
+        SHOW_OUT_OF_RANGE_ERROR;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with != operator when normal int on the right differs for "
+
+    try
+    {
+        range_t value = RANGE_MAX;
+        int expected = RANGE_MAX - 1;
+
+        TEST_ASSERT_TRUE(value != expected)
+    }
+    catch(OutOfRangeError error)
+    {
+        SHOW_OUT_OF_RANGE_ERROR;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with != operator when normal int on the left differs for "
+
+    try
+    {
+        range_t value = RANGE_MAX;
+        int expected = RANGE_MAX - 1;
+
+        TEST_ASSERT_TRUE(expected != value)
+    }
+    catch(OutOfRangeError error)
+    {
+        SHOW_OUT_OF_RANGE_ERROR;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with != operator when other " TEST_CLASS_STR " differs for "
+
+    try
+    {
+        range_t value1 = RANGE_MAX;
+        range_t value2 = RANGE_MAX - 1;
+
+        TEST_ASSERT_TRUE(value1 != value2)
+    }
+    catch(OutOfRangeError error)
+    {
+        SHOW_OUT_OF_RANGE_ERROR;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with != operator when other " TEST_CLASS2_STR " differs for "
+
+    try
+    {
+        range_t value1 = RANGE_MIN + 1;
+        range2_t value2 = RANGE_MIN;
+
+        TEST_ASSERT_TRUE(value1 != value2)
+    }
+    catch(OutOfRangeError error)
+    {
+        SHOW_OUT_OF_RANGE_ERROR;
     }
 
 #undef TEST_STR
