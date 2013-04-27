@@ -22,12 +22,16 @@
 #define TEST_CLASS StaticIntegerRange<RANGE_MIN,RANGE_MAX>
 #define TEST_CLASS_STR STRINGIFICATION((TEST_CLASS))
 
+#define TEST_CLASS2 StaticIntegerRange<RANGE_MIN,RANGE_MAX - 1>
+#define TEST_CLASS2_STR STRINGIFICATION((TEST_CLASS2))
+
 #define STRINGIFICATION(str) _STRINGIFICATION(str)
 #define _STRINGIFICATION(str) #str
 
 using namespace std;
 
 typedef TEST_CLASS range_t;
+typedef TEST_CLASS2 range2_t;
 
 int main(int argc, char *argv[])
 {
@@ -66,7 +70,7 @@ int main(int argc, char *argv[])
     }
 
 #undef TEST_STR
-#define TEST_STR "Comparing with == when other int equals for "
+#define TEST_STR "Comparing with == operator when normal int on the right equals for "
 
     try
     {
@@ -90,7 +94,7 @@ int main(int argc, char *argv[])
     }
 
 #undef TEST_STR
-#define TEST_STR "Comparing with == when other int equals and is before, for "
+#define TEST_STR "Comparing with == operator when normal int on the left equals for "
 
     try
     {
@@ -105,6 +109,150 @@ int main(int argc, char *argv[])
         {
             cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
             return TEST_FAILED;
+        }
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with == operator when other " TEST_CLASS_STR " equals for "
+
+    try
+    {
+        range_t value1 = RANGE_MAX;
+        range_t value2 = RANGE_MAX;
+
+        if (value1 == value2)
+        {
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+        }
+        else
+        {
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+            return TEST_FAILED;
+        }
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with == operator when other " TEST_CLASS2_STR " equals for "
+
+    try
+    {
+        range_t value1 = RANGE_MIN;
+        range2_t value2 = RANGE_MIN;
+
+        if (value1 == value2)
+        {
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+        }
+        else
+        {
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+            return TEST_FAILED;
+        }
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with == operator when normal int on the right differs for "
+
+    try
+    {
+        range_t value = RANGE_MAX;
+        int expected = RANGE_MAX - 1;
+
+        if (value == expected)
+        {
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+            return TEST_FAILED;
+        }
+        else
+        {
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+        }
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with == operator when normal int on the left differs for "
+
+    try
+    {
+        range_t value = RANGE_MAX;
+        int expected = RANGE_MAX - 1;
+
+        if (expected == value)
+        {
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+            return TEST_FAILED;
+        }
+        else
+        {
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+        }
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with == operator when other " TEST_CLASS_STR " differs for "
+
+    try
+    {
+        range_t value1 = RANGE_MAX;
+        range_t value2 = RANGE_MAX - 1;
+
+        if (value1 == value2)
+        {
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+            return TEST_FAILED;
+        }
+        else
+        {
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
+        }
+    }
+    catch(OutOfRangeError error)
+    {
+        cerr << TEST_FAILED_STR "OutOfRangeError thrown. " TEST_STR TEST_CLASS_STR << endl;
+        return TEST_FAILED;
+    }
+
+#undef TEST_STR
+#define TEST_STR "Comparing with == operator when other " TEST_CLASS2_STR " differs for "
+
+    try
+    {
+        range_t value1 = RANGE_MIN + 1;
+        range2_t value2 = RANGE_MIN;
+
+        if (value1 == value2)
+        {
+            cerr << TEST_FAILED_STR TEST_STR TEST_CLASS_STR << endl;
+            return TEST_FAILED;
+        }
+        else
+        {
+            cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
         }
     }
     catch(OutOfRangeError error)
@@ -129,6 +277,7 @@ int main(int argc, char *argv[])
     {
         cout << TEST_PASSED_STR TEST_STR TEST_CLASS_STR << endl;
     }
+
 
 #undef TEST_STR
 #define TEST_STR "pre ++ operator on a value that is actually in the limit for "

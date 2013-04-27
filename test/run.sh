@@ -11,8 +11,8 @@ else
     echo "Test passed: Program not compiling for RANGE_MIN > RANGE_MAX"
 fi
 
-# This compilation should work RANGE_MIN == RANGE_MAX
-g++ src/StaticIntegerRange.cpp -I../lib/src -std=c++0x -o test/test -DRANGE_MIN=-4 -DRANGE_MAX=-4 > /dev/null 2> /dev/null
+# This compilation should work RANGE_MIN + 1 == RANGE_MAX
+g++ src/StaticIntegerRange.cpp -I../lib/src -std=c++0x -o test/test -DRANGE_MIN=-4 -DRANGE_MAX=-3 > /dev/null
 if [ $? == "0" ]; then
     echo "Test passed: Program compiling for RANGE_MIN == RANGE_MAX"
 else
