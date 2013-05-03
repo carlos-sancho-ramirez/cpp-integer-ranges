@@ -138,6 +138,16 @@ struct StaticIntegerRange
         }
     }
 
+    template<typename RANGE_TYPE>
+    StaticIntegerRange(const RANGE_TYPE &value) :
+            mValue(static_cast<const TYPE>(value))
+    {
+        if (MIN > mValue || mValue > MAX)
+        {
+            throw OutOfRangeError();
+        }
+    }
+
     StaticIntegerRange<MIN,MAX,TYPE> &operator++() // Prefix (++x)
     {
         if (mValue >= MAX)

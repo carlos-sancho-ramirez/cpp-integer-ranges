@@ -49,7 +49,7 @@ int main(int args, char *argv[])
 {
     for(counter_t counter = RANGE_MIN; counter < RANGE_MAX; counter++)
     {
-        showValue(static_cast<rangedRaw_t>(counter));
+        showValue(counter);
     }
 
     return 0;
