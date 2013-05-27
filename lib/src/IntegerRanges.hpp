@@ -122,6 +122,12 @@ struct StaticIntegerRange
 {
     enum
     {
+        MIN_VALUE = BoundedIntTraits<MIN, MAX>::MIN_VALUE,
+        MAX_VALUE = BoundedIntTraits<MIN, MAX>::MAX_VALUE,
+        RANGE = BoundedIntTraits<MIN, MAX>::RANGE,
+        STEPS = BoundedIntTraits<MIN, MAX>::STEPS,
+        NEEDED_BITS = BoundedIntTraits<MIN, MAX>::NEEDED_BITS,
+
         validRangeDeclaredCheck = StaticAssert<(MIN <= MAX)>::value
     };
     typedef TYPE type;
