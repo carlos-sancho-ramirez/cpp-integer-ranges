@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 
     cout << "Product is " << (pack2.getValueForType1() * pack2.getValueForType2())
          << endl;
+    cout << "This pack has a size of " << sizeof(packed2_t) << " bytes in memory" << endl;
 
 	// Pack of 3 values
 	packed3_t pack3;
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
 
 	cout << "Product is " << (pack3.getValueForType1() * pack3.getValueForType2()
 			* pack3.getValueForType3()) << endl;
+    cout << "This pack has a size of " << sizeof(packed3_t) << " bytes in memory" << endl;
 
     // Pack of 8 booleans
 	flags_t flags;
@@ -42,6 +44,7 @@ int main(int argc, char *argv[])
             flags.getValueForType6() + flags.getValueForType7() + flags.getValueForType8();
 
 	cout << "There is " << ones << " flags set" << endl;
+    cout << "This pack has a size of " << sizeof(flags_t) << " bytes in memory" << endl;
 
     return 0;
 }
