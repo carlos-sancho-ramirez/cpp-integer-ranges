@@ -5,7 +5,7 @@
 #include "IntegerRanges.hpp"
 
 /**
- * PackedValues: Class wrapping a list of IntegerRanges with the intention to
+ * PackedXValues: Set of classes wrapping a list of IntegerRanges with the intention to
  * save memory space. All wrapped StaticIntegerRange classes will start with
  * their minimum value by default.
  *
@@ -13,7 +13,7 @@
  *
  * class MyClass
  * {
- *     unsinged int cypher;
+ *     unsigned int cypher;
  *     bool used;
  * }
  *
@@ -41,38 +41,37 @@
  * Then the class will only use 1 byte, as cypher needs 4 bits and the boolean
  * only one, so there are still 3 more available.
  */
-template<class type1, class type2>
-struct PackedValues {
+
+template<class type1, class type2, int ALL_NEEDED_BITS = type1::NEEDED_BITS + type2::NEEDED_BITS>
+struct Packed2Values {
     enum
     {
         TYPE1_BIT_BASE = 0,
         TYPE2_BIT_BASE = TYPE1_BIT_BASE + type1::NEEDED_BITS,
-        NEEDED_BITS = TYPE2_BIT_BASE + type2::NEEDED_BITS,
+        TYPE3_BIT_BASE = TYPE2_BIT_BASE + type2::NEEDED_BITS,
 
         TYPE1_BIT_MASK = MathPower<2,TYPE2_BIT_BASE>::value - 1,
-        TYPE2_BIT_MASK = MathPower<2,NEEDED_BITS>::value - TYPE1_BIT_MASK - 1
+        TYPE2_BIT_MASK = MathPower<2,TYPE3_BIT_BASE>::value - TYPE1_BIT_MASK - 1
     };
 
-    typedef typename BoundedIntTraits<0, MathPower<2, NEEDED_BITS>::value - 1>::type packedType;
-
-    private:
+    protected:
+    typedef typename BoundedIntTraits<0, MathPower<2, ALL_NEEDED_BITS>::value - 1>::type packedType;
     packedType mPacked;
 
     public:
-
-    PackedValues() : mPacked(0)
+    Packed2Values() : mPacked(0)
     { }
 
     void setValueForType1(type1 value)
     {
         packedType converted = value;
         mPacked &= ~TYPE1_BIT_MASK;
-        mPacked |= (converted - type1::MIN_VALUE) << TYPE1_BIT_BASE;
+        mPacked |= converted - type1::MIN_VALUE;
     }
 
     type1 getValueForType1()
     {
-        return ((mPacked & TYPE1_BIT_MASK) >> TYPE1_BIT_BASE) + type1::MIN_VALUE;
+        return (mPacked & TYPE1_BIT_MASK) + type1::MIN_VALUE;
     }
 
     void setValueForType2(type2 value)
@@ -86,6 +85,33 @@ struct PackedValues {
     {
         return ((mPacked & TYPE2_BIT_MASK) >> TYPE2_BIT_BASE) + type2::MIN_VALUE;
     }    
+};
+
+template<class type1, class type2, class type3,
+		int ALL_NEEDED_BITS = type1::NEEDED_BITS + type2::NEEDED_BITS + type3::NEEDED_BITS>
+struct Packed3Values : public Packed2Values<type1, type2, ALL_NEEDED_BITS> {
+
+    typedef Packed2Values<type1, type2, ALL_NEEDED_BITS> parentType;
+
+    enum
+    {
+        TYPE3_BIT_BASE = parentType::TYPE3_BIT_BASE,
+        TYPE4_BIT_BASE = TYPE3_BIT_BASE + type3::NEEDED_BITS,
+        TYPE3_BIT_MASK = MathPower<2,TYPE4_BIT_BASE>::value - MathPower<2,TYPE3_BIT_BASE>::value
+    };
+
+    public:
+    void setValueForType3(type3 value)
+    {
+        typename parentType::packedType converted = value;
+        parentType::mPacked &= ~TYPE3_BIT_MASK;
+        parentType::mPacked |= (converted - type3::MIN_VALUE) << TYPE3_BIT_BASE;
+    }
+
+    type3 getValueForType3()
+    {
+        return ((parentType::mPacked & TYPE3_BIT_MASK) >> TYPE3_BIT_BASE) + type3::MIN_VALUE;
+    }
 };
 
 #endif // PACKED_VALUES_HPP
